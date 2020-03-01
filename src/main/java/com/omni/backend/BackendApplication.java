@@ -9,8 +9,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @EnableEurekaClient
 @SpringBootApplication
-@EntityScan({"com.omni.aurora.core.model"})
-@EnableJpaRepositories({"com.omni.aurora.core.repository"})
+@EntityScan({"com.omni.aurora.core.model", "com.omni.backend.model"})
+@EnableJpaRepositories({"com.omni.aurora.core.repository", "com.omni.backend.repository"})
 @ComponentScan({"com.omni.aurora.core", "com.omni.backend", "com.omni.aurora.token"})
 public class BackendApplication {
 

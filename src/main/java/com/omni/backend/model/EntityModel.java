@@ -1,0 +1,36 @@
+package com.omni.backend.model;
+
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
+
+@EqualsAndHashCode(callSuper = true)
+@Data
+@Table(name = "entities")
+@javax.persistence.Entity
+//@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+public class EntityModel extends AbstractAudit
+{
+    private static final long serialVersionUID = 1L;
+
+    public EntityModel() {
+        this.attributes = new HashSet<>();
+    }
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+
+    @Column(nullable = false)
+    private String name;
+
+    @OneToMany(
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
+            mappedBy = "entity"
+    )
+    private Set<EntityEntryModel> attributes;
+}
