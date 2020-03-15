@@ -5,24 +5,15 @@ use aurora;
 
 create or replace table application_user
 (
-    id       bigint auto_increment
-        primary key,
+    id         bigint       not null        primary key,
     password varchar(255)                    not null,
     role     varchar(255) default 'ADMIN'    not null,
     username varchar(255) default 'username' not null
 );
 
-create or replace table aurora
-(
-    id   bigint auto_increment
-        primary key,
-    code varchar(255) not null
-);
-
 create or replace table farms
 (
-    id         bigint       not null
-        primary key,
+    id         bigint       not null        primary key,
     created_at datetime     not null,
     updated_at datetime     not null,
     code       varchar(255) not null,
@@ -35,11 +26,11 @@ create or replace table farms
 
 create or replace table entities
 (
-    id         bigint       not null
-        primary key,
+    id         bigint       not null        primary key,
     created_at datetime     not null,
     updated_at datetime     not null,
     name       varchar(255) not null,
+    code       varchar(255) not null,
     farm_id    bigint       not null,
     constraint FKmviauev05fby66gs0430l5w6
         foreign key (farm_id) references farms (id)
@@ -47,8 +38,7 @@ create or replace table entities
 
 create or replace table entity_entries
 (
-    id          bigint       not null
-        primary key,
+    id         bigint       not null        primary key,
     created_at  datetime     not null,
     updated_at  datetime     not null,
     description varchar(255) not null,
@@ -67,14 +57,13 @@ create or replace table hibernate_sequence
 
 create or replace table table_configs
 (
-    id                 bigint       not null
-        primary key,
+    id         bigint       not null        primary key,
     created_at         datetime     not null,
     updated_at         datetime     not null,
     display_pagination bit          not null,
-    entity_name        varchar(255) not null,
+    entity_id          bigint       not null,
     constraint UK_h5yns1yartfn5kp90jqp31385
-        unique (entity_name)
+        foreign key (entity_id) references entities (id)
 );
 
 create or replace table config_entry_rel
@@ -87,4 +76,3 @@ create or replace table config_entry_rel
     constraint FKtqgobn3gl30r0fb4wtn659s1a
         foreign key (config_id) references table_configs (id)
 );
-

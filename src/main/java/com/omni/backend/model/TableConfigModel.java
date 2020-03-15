@@ -17,9 +17,6 @@ public class TableConfigModel extends AbstractAudit {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(nullable = false, unique = true)
-    private String entityName;
-
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "config_entry_rel",
@@ -30,4 +27,8 @@ public class TableConfigModel extends AbstractAudit {
 
     @Column(nullable = false)
     private boolean displayPagination = false;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "entity_id", nullable = false)
+    private EntityModel entity;
 }

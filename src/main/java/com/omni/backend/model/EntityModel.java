@@ -12,8 +12,7 @@ import java.util.Set;
 @Table(name = "entities")
 @javax.persistence.Entity
 //@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-public class EntityModel extends AbstractAudit
-{
+public class EntityModel extends AbstractAudit {
     private static final long serialVersionUID = 1L;
 
     public EntityModel() {
@@ -27,6 +26,9 @@ public class EntityModel extends AbstractAudit
     @Column(nullable = false)
     private String name;
 
+    @Column(nullable = false, unique = true)
+    private String code;
+
     @OneToMany(
             cascade = CascadeType.ALL,
             fetch = FetchType.LAZY,
@@ -37,4 +39,11 @@ public class EntityModel extends AbstractAudit
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "farm_id", nullable = false)
     private FarmModel farm;
+
+    @OneToMany(
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
+            mappedBy = "entity"
+    )
+    private Set<TableConfigModel> configs;
 }
