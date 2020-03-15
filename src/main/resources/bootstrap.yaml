@@ -1,6 +1,6 @@
-spring:
-  application:
-    name: aurora-backend
-  cloud:
-    config:
-      uri: http://configuration-server.com:8084
+#spring:
+#  application:
+#    name: aurora-backend
+#  cloud:
+#    config:
+#      uri: http://configuration-server.com:8084

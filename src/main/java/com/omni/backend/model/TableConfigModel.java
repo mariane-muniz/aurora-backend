@@ -1,14 +1,14 @@
 package com.omni.backend.model;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Set;
 
-@EqualsAndHashCode(callSuper = true)
-@Data
 @Entity
+@Getter
+@Setter
 @Table(name = "table_configs")
 public class TableConfigModel extends AbstractAudit {
     private static final long serialVersionUID = 1L;
@@ -17,12 +17,17 @@ public class TableConfigModel extends AbstractAudit {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String entityName;
 
-    @OneToMany(
-            cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "config_entry_rel",
+            joinColumns = @JoinColumn(name = "config_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "entity_entry_id", referencedColumnName = "id")
     )
     private Set<EntityEntryModel> entries;
+
+    @Column(nullable = false)
+    private boolean displayPagination = false;
 }

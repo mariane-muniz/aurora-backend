@@ -1,14 +1,14 @@
 package com.omni.backend.model;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
-@EqualsAndHashCode(callSuper = true)
-@Data
+@Getter
+@Setter
 @Table(name = "entities")
 @javax.persistence.Entity
 //@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
@@ -33,4 +33,8 @@ public class EntityModel extends AbstractAudit
             mappedBy = "entity"
     )
     private Set<EntityEntryModel> attributes;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "farm_id", nullable = false)
+    private FarmModel farm;
 }

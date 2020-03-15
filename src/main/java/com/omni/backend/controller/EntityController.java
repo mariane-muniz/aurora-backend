@@ -34,8 +34,9 @@ public class EntityController {
             return ResponseEntity.status(HttpStatus.ACCEPTED).body(data);
         }
         catch (Exception e) {
-            LOG.log(Level.SEVERE, "Fail on request", e);
+            LOG.log(Level.SEVERE, "The response was sent empty.");
+            LOG.log(Level.SEVERE, e.getMessage());
         }
-        return ResponseEntity.badRequest().build();
+        return ResponseEntity.noContent().build();
     }
 }

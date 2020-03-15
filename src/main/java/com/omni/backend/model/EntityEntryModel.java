@@ -1,13 +1,14 @@
 package com.omni.backend.model;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Set;
 
-@EqualsAndHashCode(callSuper = true)
-@Data
 @Entity
+@Getter
+@Setter
 @Table(name = "entity_entries")
 public class EntityEntryModel extends AbstractAudit
 {
@@ -33,5 +34,6 @@ public class EntityEntryModel extends AbstractAudit
     @Column(nullable = false)
     private String publicName;
 
-    public EntityEntryModel() {}
+    @ManyToMany(mappedBy = "entries")
+    private Set<TableConfigModel> tableConfigs;
 }
