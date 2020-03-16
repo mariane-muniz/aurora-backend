@@ -28,3 +28,5 @@ eureka:
 logging:
   pattern:
     level: DEBUG
+app:
+  protocol: "http://"

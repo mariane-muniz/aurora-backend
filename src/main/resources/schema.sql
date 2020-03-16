@@ -46,8 +46,11 @@ create or replace table entity_entries
     public_name varchar(255) not null,
     type        int          not null,
     entity_id   bigint       not null,
+    farm_id     bigint       not null,
     constraint FKbdc35xvfg95dj1gd87p2gdoh7
-        foreign key (entity_id) references entities (id)
+        foreign key (entity_id) references entities (id),
+    constraint FXtqgobn3gl30r0fb4wtn659s1l
+        foreign key (farm_id) references farms (id)
 );
 
 create or replace table hibernate_sequence

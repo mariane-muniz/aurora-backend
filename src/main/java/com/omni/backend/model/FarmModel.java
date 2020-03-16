@@ -30,4 +30,11 @@ public class FarmModel extends AbstractAudit {
             mappedBy = "farm"
     )
     private Set<EntityModel> entities;
+
+    @OneToMany(
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
+            mappedBy = "farm"
+    )
+    private Set<EntityEntryModel> entries;
 }
