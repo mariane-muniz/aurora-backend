@@ -1,5 +1,6 @@
 package com.omni.backend.model;
 
+import com.omni.aurora.core.model.AbstractAudit;
 import lombok.Getter;
 import lombok.Setter;
 

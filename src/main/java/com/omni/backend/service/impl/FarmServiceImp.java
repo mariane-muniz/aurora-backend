@@ -26,6 +26,8 @@ public class FarmServiceImp extends FarmService {
         final FarmModel farm = entity.getFarm();
         final String farmCode = farm.getCode();
         final String URL = this.protocol + farmCode + "/" + entityCode;
+        log.info("Farm URL: " + URL);
+        falta colocar o header com o token
         Object objReturn = this.restTemplate.getForObject(URL, Object.class);
         log.info(objReturn.toString());
     }

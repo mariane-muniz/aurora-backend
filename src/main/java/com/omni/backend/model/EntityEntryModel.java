@@ -1,5 +1,6 @@
 package com.omni.backend.model;
 
+import com.omni.aurora.core.model.AbstractAudit;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,8 +11,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Table(name = "entity_entries")
-public class EntityEntryModel extends AbstractAudit
-{
+public class EntityEntryModel extends AbstractAudit {
     private static final long serialVersionUID = 1L;
 
     @Id
