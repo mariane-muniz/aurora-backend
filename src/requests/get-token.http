@@ -1,4 +1,4 @@
-POST http://localhost:8080/api/aurora-auth/login
+POST http://configuration-server.com:8080/api/aurora-auth/login
 Content-Type: application/json
 
 {
