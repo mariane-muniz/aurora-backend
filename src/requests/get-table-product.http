@@ -1,5 +1,0 @@
-GET http://localhost:8080/api/aurora-backend/entity/product
-Content-Type: application/json
-Authorization: {{token}}
-
-###

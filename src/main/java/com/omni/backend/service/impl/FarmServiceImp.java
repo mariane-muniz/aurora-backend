@@ -1,5 +1,6 @@
 package com.omni.backend.service.impl;
 
+import com.omni.backend.dto.ResponseData;
 import com.omni.backend.model.EntityModel;
 import com.omni.backend.model.FarmModel;
 import com.omni.backend.parameter.RestParameter;
@@ -8,8 +9,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+
+import java.net.URI;
+import java.net.URISyntaxException;
 
 @Service
 @Slf4j
@@ -20,15 +25,20 @@ public class FarmServiceImp extends FarmService {
     private final RestTemplate restTemplate;
 
     @Override
-    public void search(final RestParameter parameter) {
+    public ResponseEntity<ResponseData> search(final RestParameter parameter) throws URISyntaxException {
         final EntityModel entity = parameter.getEntity();
         final String entityCode = entity.getCode();
         final FarmModel farm = entity.getFarm();
         final String farmCode = farm.getCode();
-        final String URL = this.protocol + farmCode + "/" + entityCode;
-        log.info("Farm URL: " + URL);
-        falta colocar o header com o token
-        Object objReturn = this.restTemplate.getForObject(URL, Object.class);
-        log.info(objReturn.toString());
+        final URI URL = new URI(this.protocol + farmCode + "/" + entityCode);
+        final HttpEntity<Object> headers = this.getHeader(parameter.getToken());
+        return restTemplate.exchange(URL, HttpMethod.GET, headers, ResponseData.class);
+    }
+
+    private HttpEntity<Object> getHeader(final String accessToken) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("Authorization", accessToken);
+        return new HttpEntity<>(headers);
     }
 }

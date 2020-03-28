@@ -10,33 +10,24 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
-@Table(name = "table_configs")
-public class TableConfigModel extends AbstractAudit {
+@Table(name = "form_configs")
+public class FormConfigModel extends AbstractAudit {
+
     private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(nullable = false)
-    private boolean displayPagination = false;
-
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "config_entry_rel",
-            joinColumns = @JoinColumn(name = "config_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "entity_entry_id", referencedColumnName = "id")
-    )
-    private Set<EntityEntryModel> entries;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "entity_id", nullable = false)
     private EntityModel entity;
 
-    @OneToMany(
-            cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY,
-            mappedBy = "tableConfig"
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "form_entry_rel",
+            joinColumns = @JoinColumn(name = "config_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "entity_entry_id", referencedColumnName = "id")
     )
-    private Set<TableGroupActionModel> actionGroups;
+    private Set<EntityEntryModel> entries;
 }

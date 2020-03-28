@@ -40,4 +40,7 @@ public class EntityEntryModel extends AbstractAudit {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "farm_id", nullable = false)
     private FarmModel farm;
+
+    @ManyToMany(mappedBy = "entries")
+    private Set<FormConfigModel> formConfigs;
 }

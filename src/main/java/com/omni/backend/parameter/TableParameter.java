@@ -11,4 +11,5 @@ public class TableParameter implements Parameter{
     private String entityCode;
     private EntityModel entity;
     private TableConfigModel tableConfig;
+    private String token;
 }

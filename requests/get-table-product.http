@@ -1,0 +1,11 @@
+GET http://configuration-server.com:8080/api/aurora-backend/table-actions/product
+Content-Type: application/json
+Authorization: {{token}}
+
+###
+
+GET http://configuration-server.com:8080/api/aurora-backend/test
+Content-Type: application/json
+Authorization: {{token}}
+
+###

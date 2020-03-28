@@ -46,5 +46,19 @@ public class EntityModel extends AbstractAudit {
             fetch = FetchType.LAZY,
             mappedBy = "entity"
     )
-    private Set<TableConfigModel> configs;
+    private Set<TableConfigModel> tableConfigs;
+
+    @OneToMany(
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
+            mappedBy = "entity"
+    )
+    private Set<TabConfigModel> TabConfigs;
+
+    @OneToMany(
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
+            mappedBy = "entity"
+    )
+    private Set<FormConfigModel> formConfigs;
 }

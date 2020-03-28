@@ -8,4 +8,5 @@ import lombok.Setter;
 @Setter
 public class RestParameter implements Parameter {
     private EntityModel entity;
+    private String token;
 }

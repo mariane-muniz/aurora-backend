@@ -8,8 +8,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public class ActionGroupData implements Data{
+public class TableActionGroupData implements Data{
     private String name;
-    private boolean displayPagination;
-    private List<ActionData> actions = new ArrayList<>();
+    private List<TableActionData> actions = new ArrayList<>();
 }

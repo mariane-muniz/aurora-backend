@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ActionData implements Data{
+public class TableActionData implements Data{
     private String text;
     private String icon;
     private String link;
