@@ -45,13 +45,17 @@ public class EntityFormController {
 
     @PostMapping(
             path = "/form/{entityName}",
-            headers = "Accept=application/json",
+            headers = "Content-Type=application/json",
             produces = "application/json")
     public ResponseEntity receiveFormEntity(
             final @PathVariable("entityName") String entityName,
+            final @RequestBody String formJson,
             final @RequestHeader Map<String, String> headers) {
         try {
-            return ResponseEntity.status(HttpStatus.ACCEPTED).body("null");
+            final RequestParameter parameter = new RequestParameter();
+            parameter.setEntityCode(entityName);
+            this.formFacade.registerForm(formJson, parameter);
+            return ResponseEntity.status(HttpStatus.ACCEPTED).build();
         }
         catch (Exception e) {
             LOG.log(Level.SEVERE, "The response was sent empty.");
