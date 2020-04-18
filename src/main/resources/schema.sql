@@ -42,6 +42,7 @@ create or replace table entity_entries
     created_at  datetime     not null,
     updated_at  datetime     not null,
     description varchar(255) not null,
+    code       varchar(255) not null,
     name        varchar(255) not null,
     public_name varchar(255) not null,
     type        int          not null,
@@ -63,6 +64,7 @@ create or replace table table_configs
     id         bigint       not null        primary key,
     created_at         datetime     not null,
     updated_at         datetime     not null,
+    code               varchar(255) not null,
     display_pagination bit          not null,
     entity_id          bigint       not null,
     constraint UK_h5yns1yartfn5kp90jqp31385
@@ -103,6 +105,7 @@ create or replace table tab_config_entries
         primary key,
     created_at datetime not null,
     updated_at datetime not null,
+    code varchar(255) not null,
     tab_config_id bigint not null,
     title varchar(255) not null,
     constraint FKeja2q8qpgdm76eb3ntvxfnu0d
@@ -115,6 +118,7 @@ create or replace table tab_config_entry_components
         primary key,
     created_at datetime not null,
     updated_at datetime not null,
+    code varchar(255) not null,
     link varchar(255) not null,
     type int not null,
     tab_config_entry_id bigint not null,
@@ -128,6 +132,7 @@ create or replace table table_group_actions
         primary key,
     created_at datetime not null,
     updated_at datetime not null,
+    code varchar(255) not null,
     name varchar(255) not null,
     table_config_id bigint not null,
     constraint FKp6bx8nigwnewh7y8ia2w0dwfo
@@ -140,6 +145,7 @@ create or replace table table_config_actions
         primary key,
     created_at datetime not null,
     updated_at datetime not null,
+    code varchar(255) not null,
     btn_type varchar(255) not null,
     icon varchar(255) null,
     link varchar(255) not null,
@@ -155,6 +161,7 @@ create or replace table form_configs
         primary key,
     created_at datetime not null,
     updated_at datetime not null,
+    code varchar(255) not null,
     entity_id bigint not null,
     constraint FKaj9lii25xpg2xgo69hqtq8h9p
         foreign key (entity_id) references entities (id)
