@@ -6,4 +6,5 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 @RepositoryRestResource(path = "farm", itemResourceRel = "farms")
 public interface FarmRepository extends PagingAndSortingRepository<FarmModel, Long> {
+    FarmModel findOneByName(final String name);
 }

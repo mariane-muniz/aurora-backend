@@ -22,7 +22,6 @@ public class GroupEntryEntitiesStrategy {
                 if (!response.containsKey(farmCode)) {
                     response.put(farmCode, new HashSet<>());
                 }
-                response.get(farmCode).add(entry.getName());
             }
         });
         return response;

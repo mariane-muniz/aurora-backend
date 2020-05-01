@@ -14,21 +14,12 @@ import java.util.Set;
 public class EntityEntryModel extends AbstractAudit {
     private static final long serialVersionUID = 1L;
 
-    @Column(nullable = false)
-    private String name;
-
-    @Column(nullable = false)
-    private String description;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "entity_id", nullable = false)
     private EntityModel entity;
 
     @Column(nullable = false)
-    private Types type;
-
-    @Column(nullable = false)
-    private String publicName;
+    private String type;
 
     @ManyToMany(mappedBy = "entries")
     private Set<TableConfigModel> tableConfigs;

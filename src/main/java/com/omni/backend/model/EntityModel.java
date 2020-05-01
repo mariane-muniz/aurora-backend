@@ -18,6 +18,9 @@ public class EntityModel extends AbstractAudit {
     @Column(nullable = false)
     private String name;
 
+    @Column(nullable = false)
+    private Long version;
+
     @OneToMany(
             cascade = CascadeType.ALL,
             fetch = FetchType.LAZY,

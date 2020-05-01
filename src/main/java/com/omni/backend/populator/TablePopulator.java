@@ -41,27 +41,11 @@ public class TablePopulator implements Populator<TableParameter, TableData> {
         final String token = source.getToken();
 
         target.setDisplayPagination(config.isDisplayPagination());
-        this.setPublicNames(entries, target);
         this.setMainResult(entity, token, target, entries);
         this.setSlaveResults(entries, target);
 
 
         return target;
-    }
-
-    private void setPublicNames(final Set<EntityEntryModel> source, final TableData target) {
-        Assert.notNull(source, "source");
-        Assert.notNull(target, "target");
-
-        // TODO remover
-        Iterator<EntityEntryModel> entries1 = this.entityEntryModelRepository.findAll().iterator();
-
-//        if (!CollectionUtils.isEmpty(source))
-//        {
-        entries1.forEachRemaining(entityEntryModel -> {
-                target.getFields().add(entityEntryModel.getPublicName());
-            });
-//        }
     }
 
     private void setMainResult(final EntityModel entity, final String token,
@@ -82,7 +66,7 @@ public class TablePopulator implements Populator<TableParameter, TableData> {
                 products.forEach(product -> {
                     ArrayList targetEntries = new ArrayList();
                     attributes.forEach(entry -> {
-                        Object value = ((LinkedHashMap<String, Object>) product).get(entry.getName());
+                        Object value = ((LinkedHashMap<String, Object>) product).get(entry.getCode());
                         targetEntries.add(value);
                     });
                     target.getValues().add(targetEntries);

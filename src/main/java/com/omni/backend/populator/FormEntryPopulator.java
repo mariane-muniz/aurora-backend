@@ -17,11 +17,9 @@ public class FormEntryPopulator implements Populator<RequestParameter, FormEntry
         final EntityEntryModel config = (EntityEntryModel) source.getConfig();
         final Map<String, Object> values = (Map<String, Object>) source.getValues();
 
-        target.setCode(config.getName());
-        target.setLabel(config.getPublicName());
-        target.setType(config.getType().name().toLowerCase());
+        target.setCode(config.getCode());
+        target.setType(config.getType());
         // TODO to implements on the model
-//        target.setHelper();
         this.setValue(target, values);
         return target;
     }

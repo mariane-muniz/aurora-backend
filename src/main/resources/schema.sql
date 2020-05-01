@@ -33,6 +33,7 @@ create or replace table entities
     updated_at datetime not null,
     name varchar(255) not null,
     code varchar(255) not null,
+    version bigint not null,
     farm_id bigint not null,
     constraint FKmviauev05fby66gs0430l5w6
         foreign key (farm_id) references farms (id)
@@ -62,11 +63,8 @@ create or replace table entity_entries
         primary key,
     created_at datetime not null,
     updated_at datetime not null,
-    description varchar(255) not null,
     code varchar(255) not null,
-    name varchar(255) not null,
-    public_name varchar(255) not null,
-    type int not null,
+    type varchar(255) not null,
     entity_id bigint not null,
     farm_id bigint not null,
     constraint FKbdc35xvfg95dj1gd87p2gdoh7

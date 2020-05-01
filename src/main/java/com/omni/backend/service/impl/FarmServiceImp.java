@@ -2,12 +2,14 @@ package com.omni.backend.service.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.omni.aurora.core.dto.EntityStructureData;
 import com.omni.backend.dto.ResponseData;
 import com.omni.backend.model.EntityEntryModel;
 import com.omni.backend.model.EntityModel;
 import com.omni.backend.model.FarmModel;
 import com.omni.backend.parameter.RequestParameter;
 import com.omni.backend.parameter.RestParameter;
+import com.omni.backend.repository.FarmRepository;
 import com.omni.backend.service.FarmService;
 import com.omni.backend.strategy.GroupEntryEntitiesStrategy;
 import lombok.RequiredArgsConstructor;
@@ -35,7 +37,22 @@ public class FarmServiceImp extends FarmService {
     @Value(value = "${app.protocol}")
     private String protocol;
     private final RestTemplate restTemplate;
+    private final FarmRepository farmRepository;
     private final GroupEntryEntitiesStrategy groupEntryEntitiesStrategy;
+
+    @Override
+    public FarmModel getFarm(final String name) {
+        return this.farmRepository.findOneByName(name);
+    }
+
+    @Override
+    public ResponseEntity<EntityStructureData[]> getEntityStructures(
+            final String farmCode,
+            final String token) throws URISyntaxException {
+        final URI URL = new URI(this.protocol + farmCode + "/entity-structure");
+        final HttpEntity<Object> headers = this.getHeader(token);
+        return restTemplate.exchange(URL, HttpMethod.GET, headers, EntityStructureData[].class);
+    }
 
     @Override
     public ResponseEntity<ResponseData> search(final RestParameter parameter) throws URISyntaxException {
