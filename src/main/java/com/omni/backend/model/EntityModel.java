@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.HashSet;
 import java.util.Set;
 
 @Getter
@@ -16,19 +15,8 @@ import java.util.Set;
 public class EntityModel extends AbstractAudit {
     private static final long serialVersionUID = 1L;
 
-    public EntityModel() {
-        this.attributes = new HashSet<>();
-    }
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-
     @Column(nullable = false)
     private String name;
-
-    @Column(nullable = false, unique = true)
-    private String code;
 
     @OneToMany(
             cascade = CascadeType.ALL,
@@ -61,4 +49,11 @@ public class EntityModel extends AbstractAudit {
             mappedBy = "entity"
     )
     private Set<FormConfigModel> formConfigs;
+
+    @OneToMany(
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
+            mappedBy = "entity"
+    )
+    private Set<FormConfigModel> actions;
 }

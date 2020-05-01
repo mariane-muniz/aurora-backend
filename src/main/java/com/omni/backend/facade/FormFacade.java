@@ -7,4 +7,6 @@ import com.omni.backend.parameter.RequestParameter;
 public interface FormFacade {
     FormData getForm(RequestParameter parameter);
     void registerForm(String jsonForm, RequestParameter parameter) throws JsonProcessingException;
+    void deleteForm(RequestParameter parameter);
+    void updateForm(String jsonForm, RequestParameter parameter);
 }

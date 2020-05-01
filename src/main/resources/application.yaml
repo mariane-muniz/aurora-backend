@@ -30,7 +30,20 @@ eureka:
     register-with-eureka: true
 
 logging:
+  file:
+    max-history: 1
+    max-size: 10MB
+    name: /home/scott/Projects/logs/backend.log
   pattern:
     level: DEBUG
+  level:
+    org:
+      hibernate:
+        SQL: debug
+        type:
+          descriptor:
+            sql: trace
+
 app:
   protocol: "http://"
+

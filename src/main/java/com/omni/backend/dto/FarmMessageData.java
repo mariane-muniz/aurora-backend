@@ -8,4 +8,5 @@ import lombok.Setter;
 public class FarmMessageData {
     private String content;
     private String type;
+    private String action;
 }

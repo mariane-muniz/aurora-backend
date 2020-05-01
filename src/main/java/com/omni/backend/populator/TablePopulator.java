@@ -8,7 +8,7 @@ import com.omni.backend.model.EntityModel;
 import com.omni.backend.model.TableConfigModel;
 import com.omni.backend.parameter.RestParameter;
 import com.omni.backend.parameter.TableParameter;
-import com.omni.backend.repository.EntityEntryModelRepository;
+import com.omni.backend.repository.EntityEntryRepository;
 import com.omni.backend.service.FarmService;
 import com.omni.backend.strategy.GroupEntryEntitiesStrategy;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +28,7 @@ import java.util.*;
 public class TablePopulator implements Populator<TableParameter, TableData> {
     private final FarmService farmService;
     private final GroupEntryEntitiesStrategy groupEntryEntitiesStrategy;
-    private final EntityEntryModelRepository entityEntryModelRepository;
+    private final EntityEntryRepository entityEntryModelRepository;
 
     @Override
     public TableData populate(final TableParameter source, final TableData target) {
@@ -69,12 +69,10 @@ public class TablePopulator implements Populator<TableParameter, TableData> {
         Assert.notNull(entity, "entity");
         Assert.notNull(target, "target");
 
+        final Iterable<EntityEntryModel> attributes = this.entityEntryModelRepository.findAll();
         final RestParameter parameter = new RestParameter();
         parameter.setEntity(entity);
         parameter.setToken(token);
-
-        // TODO remover
-        Iterator<EntityEntryModel> entries1 = this.entityEntryModelRepository.findAll().iterator();
 
         try {
             final ResponseEntity<ResponseData> result = this.farmService.search(parameter);
@@ -83,14 +81,13 @@ public class TablePopulator implements Populator<TableParameter, TableData> {
                 ArrayList products = (ArrayList) result.getBody().get_embedded().values().iterator().next();
                 products.forEach(product -> {
                     ArrayList targetEntries = new ArrayList();
-                    entries1.forEachRemaining(entry -> {
+                    attributes.forEach(entry -> {
                         Object value = ((LinkedHashMap<String, Object>) product).get(entry.getName());
                         targetEntries.add(value);
                     });
                     target.getValues().add(targetEntries);
                 });
             }
-            log.info(result.getBody().toString());
         }
         catch (Exception e) {
             log.error(e.getMessage());

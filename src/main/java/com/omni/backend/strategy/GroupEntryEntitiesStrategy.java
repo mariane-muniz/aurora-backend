@@ -15,11 +15,11 @@ public class GroupEntryEntitiesStrategy {
 
     public Map<String, Set<String>> convert(final Set<EntityEntryModel> source) {
         Map<String, Set<String>> response = new HashMap<>();
-        source.stream().forEach(entry -> {
+        source.forEach(entry -> {
             final FarmModel farm = entry.getFarm();
             final String farmCode = farm.getCode();
             if (StringUtils.isNotBlank(farmCode)) {
-                if (response.containsKey(farmCode)) {
+                if (!response.containsKey(farmCode)) {
                     response.put(farmCode, new HashSet<>());
                 }
                 response.get(farmCode).add(entry.getName());

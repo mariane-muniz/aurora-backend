@@ -4,6 +4,7 @@ import com.omni.aurora.token.config.SecurityTokenConfig;
 import com.omni.aurora.token.converter.TokenConverter;
 import com.omni.aurora.token.property.JWTConfiguration;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.web.cors.CorsConfiguration;
@@ -28,8 +29,12 @@ public class SecurityCredentialsConfig extends SecurityTokenConfig {
                 .csrf().disable()
                 .cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues())
                 .and()
-                .authorizeRequests().anyRequest().permitAll();
+                .authorizeRequests()
+                    .antMatchers(HttpMethod.PUT).permitAll()
+                    .anyRequest().permitAll();
                 ;
+
+
 
 //        http.addFilterAfter(
 //                new JwtTokenAuthorizationFilter(jwtConfiguration, tokenConverter),

@@ -8,7 +8,6 @@ import com.omni.backend.model.TableConfigModel;
 import com.omni.backend.parameter.RequestParameter;
 import com.omni.backend.parameter.TableParameter;
 import com.omni.backend.populator.TableActionGroupPopulator;
-import com.omni.backend.populator.TableActionPopulator;
 import com.omni.backend.populator.TablePopulator;
 import com.omni.backend.service.EntityService;
 import javassist.NotFoundException;

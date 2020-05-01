@@ -1,0 +1,21 @@
+POST http://configuration-server.com:8080/api/aurora-auth/login
+Content-Type: application/json
+
+{
+  "username": "username",
+  "password": "password"
+}
+
+> {% client.global.set("token", response.headers.valueOf("Authorization")); %}}
+
+###
+GET http://localhost:8086/entity-action/search/
+content-type: application/json
+Authorization: {{token}}
+
+###
+GET http://localhost:8086/entity-action/search/find-by-entity?entity=product&multiple=false&existent=true
+content-type: application/json
+Authorization: {{token}}
+
+###

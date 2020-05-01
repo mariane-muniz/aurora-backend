@@ -9,3 +9,35 @@ Content-Type: application/json
 Authorization: {{token}}
 
 ###
+
+POST http://configuration-server.com:8080/api/aurora-backend/form/product HTTP/1.1
+content-type: application/json
+Authorization: {{token}}
+
+{
+  "name": "Product name TEST F",
+  "description": "Product description",
+  "code": "123C",
+  "status": "true"
+}
+
+###
+
+#PUT http://configuration-server.com:8080/api/aurora-backend/form/product HTTP/1.1
+PUT http://localhost:8086/form/product/D1AS3D2AS HTTP/1.1
+content-type: application/json
+Authorization: {{token}}
+
+{
+  "name": "Play Station 2",
+  "code": "D1AS3D2AS"
+}
+
+###
+PUT http://configuration-server.com:8080/api/aurora-backend/form/product/D1AS3D2AS HTTP/1.1
+content-type: application/json
+Authorization: {{token}}
+
+{"code": "D1AS3D2AS", "name": "Play Station 2", "status": true}
+
+###

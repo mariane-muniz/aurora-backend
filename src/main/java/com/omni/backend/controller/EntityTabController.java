@@ -21,14 +21,16 @@ public class EntityTabController {
     private final TabFacade tabFacade;
 
     @GetMapping(
-            path = "/tab/{entityName}",
+            path = "/tab/{entityName}/{code}",
             headers = "Accept=application/json",
             produces = "application/json")
-    public ResponseEntity getTable(final @PathVariable("entityName") String entityName,
+    public ResponseEntity getTab(final @PathVariable("entityName") String entityName,
+                                   final @PathVariable(name = "code", required = false) String code,
                                    final @RequestHeader Map<String, String> headers) {
         try {
             final RequestParameter parameter = new RequestParameter();
             parameter.setEntityCode(entityName);
+            parameter.setCode(code);
             parameter.setToken(headers.get("authorization"));
             final Set<TabData> tabData = this.tabFacade.getTab(parameter);
             return ResponseEntity.status(HttpStatus.OK).body(tabData);
@@ -38,5 +40,14 @@ public class EntityTabController {
             log.error(e.getMessage());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
+    }
+
+    @GetMapping(
+            path = "/tab/{entityName}",
+            headers = "Accept=application/json",
+            produces = "application/json")
+    public ResponseEntity getTabEntity(final @PathVariable("entityName") String entityName,
+                                   final @RequestHeader Map<String, String> headers) {
+        return this.getTab(entityName, null, headers);
     }
 }

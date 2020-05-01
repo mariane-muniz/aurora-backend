@@ -10,6 +10,7 @@ import lombok.Setter;
 public class TableParameter implements Parameter{
     private String entityCode;
     private EntityModel entity;
+    private String code;
     private TableConfigModel tableConfig;
     private String token;
 }
