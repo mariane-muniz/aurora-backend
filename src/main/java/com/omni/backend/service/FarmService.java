@@ -9,8 +9,8 @@ import com.omni.backend.parameter.RestParameter;
 import org.springframework.http.ResponseEntity;
 
 import java.net.URISyntaxException;
+import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 public abstract class FarmService {
     public abstract FarmModel getFarm(String name);
@@ -21,5 +21,5 @@ public abstract class FarmService {
     public abstract ResponseEntity<ResponseData> search(RestParameter parameter) throws URISyntaxException;
     public abstract ResponseEntity<String> getData(String farmCode, String entityCode,
                                                    String code, String token) throws URISyntaxException;
-    public abstract Map<String, Object> getValues(Set<EntityEntryModel> entries, RequestParameter source);
+    public abstract Map<String, Object> getValues(List<EntityEntryModel> entries, RequestParameter source);
 }

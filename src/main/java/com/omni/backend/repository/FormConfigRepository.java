@@ -6,4 +6,5 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 @RepositoryRestResource(path = "form-config", itemResourceRel = "form-configs")
 public interface FormConfigRepository extends PagingAndSortingRepository<FormConfigModel, Integer> {
+    FormConfigModel findOneByEntityCode(final String entityCode);
 }

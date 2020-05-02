@@ -12,19 +12,16 @@ import java.util.Set;
 @Setter
 @Table(name = "farms")
 public class FarmModel extends AbstractAudit {
-
     private static final long serialVersionUID = 1L;
 
     @Column(nullable = false, unique = true)
     private String name;
-
     @OneToMany(
             cascade = CascadeType.ALL,
             fetch = FetchType.LAZY,
             mappedBy = "farm"
     )
     private Set<EntityModel> entities;
-
     @OneToMany(
             cascade = CascadeType.ALL,
             fetch = FetchType.LAZY,

@@ -1,200 +1,196 @@
 drop database aurora;
-create database aurora collate latin1_swedish_ci;
+create schema aurora collate latin1_swedish_ci;
 use aurora;
 
 create or replace table application_user
 (
-    id bigint not null
-        primary key,
-    password varchar(255) not null,
-    role varchar(255) default 'ADMIN' not null,
-    username varchar(255) default 'username' not null
-);
-
-create or replace table farms
-(
-    id bigint not null
-        primary key,
-    created_at datetime not null,
-    updated_at datetime not null,
-    code varchar(255) not null,
-    name varchar(255) not null,
-    constraint UK_3214ianrcn3ndqcuta6d7nq2f
-        unique (code),
-    constraint UK_5eca4s3pnujm1syymfk36pkgu
-        unique (name)
-);
-
-create or replace table entities
-(
-    id bigint not null
-        primary key,
-    created_at datetime not null,
-    updated_at datetime not null,
-    name varchar(255) not null,
-    code varchar(255) not null,
-    version bigint not null,
-    farm_id bigint not null,
-    constraint FKmviauev05fby66gs0430l5w6
-        foreign key (farm_id) references farms (id)
+	id bigint auto_increment
+		primary key,
+	password varchar(255) not null,
+	role varchar(255) default 'ADMIN' not null,
+	username varchar(255) default 'username' not null
 );
 
 create or replace table entity_actions
 (
-    id bigint not null
-        primary key,
-    code varchar(255) not null,
-    created_at datetime not null,
-    updated_at datetime not null,
-    entity_id bigint not null,
-    existent boolean null,
-    multiple boolean null,
-    text varchar(255) not null,
-    rules varchar(255) not null,
-    constraint UK_qmhvxxxqrhi8kk56yx35u3xuo
-        unique (code),
-    constraint FKame9w0w4wbgpnvg95fwr66o3q
-        foreign key (entity_id) references entities (id)
+	id bigint not null
+		primary key,
+	code varchar(255) not null,
+	created_at datetime not null,
+	updated_at datetime not null,
+	entity_code varchar(255) not null,
+	existent bit not null,
+	multiple bit not null,
+	rules varchar(255) null,
+	text varchar(255) not null,
+	constraint UK_4gcrbunbqs5oxjafs1wdgs5uj
+		unique (entity_code),
+	constraint UK_qmhvxxxqrhi8kk56yx35u3xuo
+		unique (code)
+);
+
+create or replace table farms
+(
+	id bigint not null
+		primary key,
+	code varchar(255) not null,
+	created_at datetime not null,
+	updated_at datetime not null,
+	name varchar(255) not null,
+	constraint UK_3214ianrcn3ndqcuta6d7nq2f
+		unique (code),
+	constraint UK_5eca4s3pnujm1syymfk36pkgu
+		unique (name)
+);
+
+create or replace table entities
+(
+	id bigint not null
+		primary key,
+	code varchar(255) not null,
+	created_at datetime not null,
+	updated_at datetime not null,
+	name varchar(255) not null,
+	version bigint not null,
+	farm_id bigint not null,
+	constraint UK_5qu23ja9ixrm2nfbqa7xl3wab
+		unique (code),
+	constraint FKmviauev05fby66gs0430l5w6
+		foreign key (farm_id) references farms (id)
 );
 
 create or replace table entity_entries
 (
-    id bigint not null
-        primary key,
-    created_at datetime not null,
-    updated_at datetime not null,
-    code varchar(255) not null,
-    type varchar(255) not null,
-    entity_id bigint not null,
-    farm_id bigint not null,
-    constraint FKbdc35xvfg95dj1gd87p2gdoh7
-        foreign key (entity_id) references entities (id),
-    constraint FXtqgobn3gl30r0fb4wtn659s1l
-        foreign key (farm_id) references farms (id)
+	id bigint not null
+		primary key,
+	code varchar(255) not null,
+	created_at datetime not null,
+	updated_at datetime not null,
+	entity_code varchar(255) not null,
+	type varchar(255) not null,
+	entity_id bigint not null,
+	farm_id bigint not null,
+	constraint UK_30nn6agh98d22guncxt5qgt43
+		unique (code),
+	constraint UK_5eqc656rcdiijxu8ibnmviwy5
+		unique (entity_code),
+	constraint FKbdc35xvfg95dj1gd87p2gdoh7
+		foreign key (entity_id) references entities (id),
+	constraint FKkih2b5uv6qedy9tad2y3mjq4u
+		foreign key (farm_id) references farms (id)
 );
 
 create or replace table form_configs
 (
-    id bigint not null
-        primary key,
-    created_at datetime not null,
-    updated_at datetime not null,
-    code varchar(255) not null,
-    entity_id bigint not null,
-    constraint FKaj9lii25xpg2xgo69hqtq8h9p
-        foreign key (entity_id) references entities (id)
+	id bigint not null
+		primary key,
+	code varchar(255) not null,
+	created_at datetime not null,
+	updated_at datetime not null,
+	entity_code varchar(255) not null,
+	constraint UK_bvx49hbjnyehwi6705bryj3q9
+		unique (code),
+	constraint UK_j01gg149ayc0pxc322gcdlc47
+		unique (entity_code)
 );
 
-create or replace table form_entry_rel
+create or replace table form_config_model_entries
 (
-    config_id bigint not null,
-    entity_entry_id bigint not null,
-    primary key (config_id, entity_entry_id),
-    constraint FK48jh2nwnqwavsh3gb4y2om290
-        foreign key (entity_entry_id) references entity_entries (id),
-    constraint FKjjpmh7gy4o0ro2sfg7ubuwkn1
-        foreign key (config_id) references form_configs (id)
+	form_config_model_id bigint not null,
+	entries varchar(255) null,
+	constraint FK5pvxymkbdbqqldjxw0i905lrm
+		foreign key (form_config_model_id) references form_configs (id)
 );
 
 create or replace table hibernate_sequence
 (
-    next_val bigint null
+	next_val bigint null
 );
 
 create or replace table tab_configs
 (
-    id bigint not null
-        primary key,
-    created_at datetime not null,
-    updated_at datetime not null,
-    code varchar(255) not null,
-    name varchar(255) not null,
-    entity_id bigint not null,
-    constraint UK_gxop1v4wyo0q1av8sok0ylr9
-        unique (code),
-    constraint UK_m0ssjjiuwj5i4fv03pojf2i28
-        unique (name),
-    constraint FK8k7gvsklmd9jomm8frqure17x
-        foreign key (entity_id) references entities (id)
+	id bigint not null
+		primary key,
+	code varchar(255) not null,
+	created_at datetime not null,
+	updated_at datetime not null,
+	entity_code varchar(255) not null,
+	name varchar(255) not null,
+	constraint UK_fuwjdprq3prh64skldf6t2ekh
+		unique (entity_code),
+	constraint UK_gxop1v4wyo0q1av8sok0ylr9
+		unique (code),
+	constraint UK_m0ssjjiuwj5i4fv03pojf2i28
+		unique (name)
 );
 
 create or replace table tab_config_entries
 (
-    id bigint not null
-        primary key,
-    created_at datetime not null,
-    updated_at datetime not null,
-    code varchar(255) not null,
-    tab_config_id bigint not null,
-    title varchar(255) not null,
-    constraint FKeja2q8qpgdm76eb3ntvxfnu0d
-        foreign key (tab_config_id) references tab_configs (id)
+	id bigint not null
+		primary key,
+	code varchar(255) not null,
+	created_at datetime not null,
+	updated_at datetime not null,
+	entity_entry_code varchar(255) not null,
+	title varchar(255) not null,
+	tab_config_id bigint not null,
+	constraint UK_mfduldv731ibxkgo6g2xg75vs
+		unique (code),
+	constraint FKk15t8f4okqwtai7f96b7qae6j
+		foreign key (tab_config_id) references tab_configs (id)
 );
 
 create or replace table tab_config_entry_components
 (
-    id bigint not null
-        primary key,
-    created_at datetime not null,
-    updated_at datetime not null,
-    code varchar(255) not null,
-    link varchar(255) not null,
-    type int not null,
-    tab_config_entry_id bigint not null,
-    constraint FKilbf0mt2fdwhxugfilrekjm7t
-        foreign key (tab_config_entry_id) references tab_config_entries (id)
+	id bigint not null
+		primary key,
+	code varchar(255) not null,
+	created_at datetime not null,
+	updated_at datetime not null,
+	link varchar(255) not null,
+	type int not null,
+	tab_config_entry_id bigint not null,
+	constraint UK_hhd063asdqwpb9t9g7qtpowat
+		unique (code),
+	constraint FKnk3xavtdx8kskm8w6vfmgj8kv
+		foreign key (tab_config_entry_id) references tab_config_entries (id)
 );
 
 create or replace table table_configs
 (
-    id bigint not null
-        primary key,
-    created_at datetime not null,
-    updated_at datetime not null,
-    code varchar(255) not null,
-    display_pagination bit not null,
-    entity_id bigint not null,
-    constraint UK_h5yns1yartfn5kp90jqp31385
-        foreign key (entity_id) references entities (id)
+	id bigint not null
+		primary key,
+	code varchar(255) not null,
+	created_at datetime not null,
+	updated_at datetime not null,
+	display_pagination bit not null,
+	entity_code varchar(255) not null,
+	constraint UK_ihqp14vpbmgabor0mamq9vixg
+		unique (code),
+	constraint UK_ksmce8sphh2wgnebf3nl25nxb
+		unique (entity_code)
 );
 
-create or replace table config_entry_rel
+create or replace table table_config_model_entries
 (
-    config_id bigint not null,
-    entity_entry_id bigint not null,
-    primary key (config_id, entity_entry_id),
-    constraint FK78rowxy1suo52csr34vokd13r
-        foreign key (entity_entry_id) references entity_entries (id),
-    constraint FKtqgobn3gl30r0fb4wtn659s1a
-        foreign key (config_id) references table_configs (id)
+	table_config_model_id bigint not null,
+	entries varchar(255) null,
+	constraint FK6qysvspamvmpgb4u4iywgmmpw
+		foreign key (table_config_model_id) references table_configs (id)
 );
 
 create or replace table table_group_actions
 (
-    id bigint not null
-        primary key,
-    created_at datetime not null,
-    updated_at datetime not null,
-    code varchar(255) not null,
-    name varchar(255) not null,
-    table_config_id bigint not null,
-    constraint FKp6bx8nigwnewh7y8ia2w0dwfo
-        foreign key (table_config_id) references table_configs (id)
-);
-
-create or replace table table_config_actions
-(
-    id bigint not null
-        primary key,
-    created_at datetime not null,
-    updated_at datetime not null,
-    code varchar(255) not null,
-    btn_type varchar(255) not null,
-    icon varchar(255) null,
-    link varchar(255) not null,
-    text varchar(255) not null,
-    config_group_id bigint not null,
-    constraint FK9ht9t8pq8awg08xuadc0b1tp3
-        foreign key (config_group_id) references table_group_actions (id)
+	id bigint not null
+		primary key,
+	code varchar(255) not null,
+	created_at datetime not null,
+	updated_at datetime not null,
+	name varchar(255) not null,
+	table_config_id bigint not null,
+	constraint UK_511hy06qtg7clg04smohmkfro
+		unique (code),
+	constraint FKp6bx8nigwnewh7y8ia2w0dwfo
+		foreign key (table_config_id) references table_configs (id)
 );
 

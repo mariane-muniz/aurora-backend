@@ -11,16 +11,14 @@ import javax.persistence.*;
 @Getter
 @Setter
 public class EntityActionModel extends AbstractAudit {
-
     private static final long serialVersionUID = 1L;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "entity_id", nullable = false)
-    private EntityModel entity;
 
     @Column(nullable = false)
     private String text;
+    @Column(name = "entity_code", nullable = false, unique = true)
+    private String entityCode;
     private boolean multiple;
     private boolean existent;
     private String rules;
+
 }

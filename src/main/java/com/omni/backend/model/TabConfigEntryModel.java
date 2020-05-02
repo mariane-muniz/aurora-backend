@@ -12,18 +12,15 @@ import java.util.Set;
 @Setter
 @Table(name = "tab_config_entries")
 public class TabConfigEntryModel extends AbstractAudit {
-
     private static final long serialVersionUID = 1L;
 
     @Column(nullable = false)
     private String title;
-
-
+    @Column(nullable = false)
+    private String entityEntryCode;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tab_config_id", nullable = false)
     private TabConfigModel config;
-
-
     @OneToMany(
             cascade = CascadeType.ALL,
             fetch = FetchType.LAZY,

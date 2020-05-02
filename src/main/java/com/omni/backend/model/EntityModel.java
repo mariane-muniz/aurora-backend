@@ -17,46 +17,15 @@ public class EntityModel extends AbstractAudit {
 
     @Column(nullable = false)
     private String name;
-
     @Column(nullable = false)
     private Long version;
-
     @OneToMany(
             cascade = CascadeType.ALL,
             fetch = FetchType.LAZY,
             mappedBy = "entity"
     )
     private Set<EntityEntryModel> attributes;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "farm_id", nullable = false)
     private FarmModel farm;
-
-    @OneToMany(
-            cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY,
-            mappedBy = "entity"
-    )
-    private Set<TableConfigModel> tableConfigs;
-
-    @OneToMany(
-            cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY,
-            mappedBy = "entity"
-    )
-    private Set<TabConfigModel> TabConfigs;
-
-    @OneToMany(
-            cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY,
-            mappedBy = "entity"
-    )
-    private Set<FormConfigModel> formConfigs;
-
-    @OneToMany(
-            cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY,
-            mappedBy = "entity"
-    )
-    private Set<FormConfigModel> actions;
 }

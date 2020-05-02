@@ -12,16 +12,12 @@ import java.util.Set;
 @Entity
 @Table(name = "tab_configs")
 public class TabConfigModel extends AbstractAudit {
-
     private static final long serialVersionUID = 1L;
 
     @Column(nullable = false, unique = true)
     private String name;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "entity_id", nullable = false)
-    private EntityModel entity;
-
+    @Column(name = "entity_code", nullable = false, unique = true)
+    private String entityCode;
     @OneToMany(
             cascade = CascadeType.ALL,
             fetch = FetchType.LAZY,

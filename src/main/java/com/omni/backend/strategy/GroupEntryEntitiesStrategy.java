@@ -5,15 +5,12 @@ import com.omni.backend.model.FarmModel;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class GroupEntryEntitiesStrategy {
 
-    public Map<String, Set<String>> convert(final Set<EntityEntryModel> source) {
+    public Map<String, Set<String>> convert(final List<EntityEntryModel> source) {
         Map<String, Set<String>> response = new HashMap<>();
         source.forEach(entry -> {
             final FarmModel farm = entry.getFarm();

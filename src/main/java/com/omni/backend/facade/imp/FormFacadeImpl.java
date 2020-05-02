@@ -12,6 +12,7 @@ import com.omni.backend.parameter.RequestParameter;
 import com.omni.backend.populator.FormPopulator;
 import com.omni.backend.service.EntityService;
 import com.omni.backend.service.FarmService;
+import com.omni.backend.service.FormConfigService;
 import com.omni.backend.service.MessageQueueService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,6 +32,7 @@ public class FormFacadeImpl implements FormFacade {
     private final EntityService entityService;
     private final FormPopulator formPopulator;
     private final FarmService farmService;
+    private final FormConfigService formConfigService;
     private final MessageQueueService messageQueueService;
 
     @Override
@@ -38,11 +40,7 @@ public class FormFacadeImpl implements FormFacade {
         final String entityCode = parameter.getEntityCode();
         final Optional<EntityModel> entity = this.entityService.findEntity(entityCode);
         if (entity.isPresent()) {
-            final EntityModel instance = entity.get();
-            // TODO impement strategy
-            final FormConfigModel config =
-                    instance.getFormConfigs().iterator().next();
-            parameter.setConfig(config);
+            final FormConfigModel config = this.formConfigService.getForm(entityCode);
             return this.formPopulator.populate(parameter, new FormData());
         }
         return null;

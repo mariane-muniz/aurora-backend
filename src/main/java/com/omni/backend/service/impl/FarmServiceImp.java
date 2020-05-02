@@ -26,6 +26,7 @@ import org.springframework.web.client.RestTemplate;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -86,7 +87,7 @@ public class FarmServiceImp extends FarmService {
     }
 
     @Override
-    public Map<String, Object> getValues(final Set<EntityEntryModel> entries, final RequestParameter source) {
+    public Map<String, Object> getValues(final List<EntityEntryModel> entries, final RequestParameter source) {
         if (!CollectionUtils.isEmpty(entries) && StringUtils.isNotEmpty(source.getCode())) {
             final Map<String, Object> data = new HashMap<>();
             final Map<String, Set<String>> strategies = this.groupEntryEntitiesStrategy.convert(entries);

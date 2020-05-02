@@ -37,19 +37,18 @@ public class TablePopulator implements Populator<TableParameter, TableData> {
 
         final TableConfigModel config = source.getTableConfig();
         final EntityModel entity = source.getEntity();
-        final Set<EntityEntryModel> entries = config.getEntries();
         final String token = source.getToken();
+        final List<String> entryCodes = config.getEntries();
+        final List<EntityEntryModel> entries = this.entityEntryModelRepository.findByCode(entryCodes);
 
         target.setDisplayPagination(config.isDisplayPagination());
         this.setMainResult(entity, token, target, entries);
         this.setSlaveResults(entries, target);
-
-
         return target;
     }
 
     private void setMainResult(final EntityModel entity, final String token,
-                               final TableData target, final Set<EntityEntryModel> entries) {
+                               final TableData target, final List<EntityEntryModel> entries) {
         Assert.notNull(entity, "entity");
         Assert.notNull(target, "target");
 
@@ -60,8 +59,7 @@ public class TablePopulator implements Populator<TableParameter, TableData> {
 
         try {
             final ResponseEntity<ResponseData> result = this.farmService.search(parameter);
-            if (result.getStatusCode().equals(HttpStatus.OK))
-            {
+            if (result.getStatusCode().equals(HttpStatus.OK)) {
                 ArrayList products = (ArrayList) result.getBody().get_embedded().values().iterator().next();
                 products.forEach(product -> {
                     ArrayList targetEntries = new ArrayList();
@@ -72,18 +70,15 @@ public class TablePopulator implements Populator<TableParameter, TableData> {
                     target.getValues().add(targetEntries);
                 });
             }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             log.error(e.getMessage());
         }
     }
 
-    private void setSlaveResults(final Set<EntityEntryModel> source, final TableData target) {
+    private void setSlaveResults(final List<EntityEntryModel> source, final TableData target) {
         Assert.notNull(source, "source");
         Assert.notNull(target, "target");
-
-        if (!CollectionUtils.isEmpty(source))
-        {
+        if (!CollectionUtils.isEmpty(source)) {
             Map<String, Set<String>> mapping = this.groupEntryEntitiesStrategy.convert(source);
         }
     }

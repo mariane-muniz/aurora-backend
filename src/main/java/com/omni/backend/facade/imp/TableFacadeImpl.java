@@ -10,14 +10,15 @@ import com.omni.backend.parameter.TableParameter;
 import com.omni.backend.populator.TableActionGroupPopulator;
 import com.omni.backend.populator.TablePopulator;
 import com.omni.backend.service.EntityService;
+import com.omni.backend.service.TableService;
 import javassist.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
-import org.springframework.util.CollectionUtils;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 
@@ -27,20 +28,21 @@ public class TableFacadeImpl implements TableFacade {
     private final TablePopulator tablePopulator;
     private final TableActionGroupPopulator tableActionGroupPopulator;
     private final EntityService entityService;
+    private final TableService tableService;
+
 
     @Override
     public TableData getTable(final TableParameter tableParameter) throws NotFoundException {
         Assert.notNull(tableParameter.getEntityCode(), "entityName");
-        final Optional<EntityModel> entity = this.entityService.findEntity(tableParameter.getEntityCode());
+        final String entityCode = tableParameter.getEntityCode();
+        final Optional<EntityModel> entity = this.entityService.findEntity(entityCode);
         if (entity.isPresent()) {
             final TableData data = new TableData();
             final EntityModel entityObject = entity.get();
-            final Set<TableConfigModel> configs = entityObject.getTableConfigs();
-            if(!CollectionUtils.isEmpty(configs)) {
-                // TODO implement config select strategy
-                TableConfigModel config = configs.iterator().next();
+            final TableConfigModel tableConfig = this.tableService.getTableConfig(entityCode);
+            if(Objects.nonNull(tableConfig)) {
                 tableParameter.setEntity(entityObject);
-                tableParameter.setTableConfig(config);
+                tableParameter.setTableConfig(tableConfig);
                 return this.tablePopulator.populate(tableParameter, data);
             }
         }
@@ -50,11 +52,10 @@ public class TableFacadeImpl implements TableFacade {
     @Override
     public final Set<TableActionGroupData> getTableActions(final RequestParameter parameter) throws NotFoundException {
         Assert.notNull(parameter.getEntityCode(), "entityCode");
-        final Optional<EntityModel> entity = this.entityService.findEntity(parameter.getEntityCode());
+        final String entityCode = parameter.getEntityCode();
+        final Optional<EntityModel> entity = this.entityService.findEntity(entityCode);
         if (entity.isPresent()) {
-            final EntityModel entityObject = entity.get();
-            // TODO implement config select strategy
-            final TableConfigModel tableConfig = entityObject.getTableConfigs().iterator().next();
+            final TableConfigModel tableConfig = this.tableService.getTableConfig(entityCode);
             return this.tableActionGroupPopulator.populate(tableConfig, new HashSet<>());
         }
         throw new NotFoundException(String.format("Entity name '%s' not found", parameter.getEntityCode()));

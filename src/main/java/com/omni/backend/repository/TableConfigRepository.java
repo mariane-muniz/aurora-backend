@@ -6,4 +6,5 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 @RepositoryRestResource(path = "table_config", itemResourceRel = "table_configs")
 public interface TableConfigRepository extends PagingAndSortingRepository<TableConfigModel, Long> {
+    TableConfigModel findByEntityCode(final String entityCode);
 }
