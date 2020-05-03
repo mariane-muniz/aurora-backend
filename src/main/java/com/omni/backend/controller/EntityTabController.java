@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -33,7 +34,10 @@ public class EntityTabController {
             parameter.setCode(code);
             parameter.setToken(headers.get("authorization"));
             final Set<TabData> tabData = this.tabFacade.getTab(parameter);
-            return ResponseEntity.status(HttpStatus.OK).body(tabData);
+            if (Objects.nonNull(tabData))
+                return ResponseEntity.status(HttpStatus.OK).body(tabData);
+            else
+                return ResponseEntity.noContent().build();
         }
         catch (Exception e) {
             log.error("The response was sent empty.");

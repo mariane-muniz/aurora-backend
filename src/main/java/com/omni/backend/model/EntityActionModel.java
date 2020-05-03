@@ -15,7 +15,7 @@ public class EntityActionModel extends AbstractAudit {
 
     @Column(nullable = false)
     private String text;
-    @Column(name = "entity_code", nullable = false, unique = true)
+    @Column(name = "entity_code", nullable = false, unique = false)
     private String entityCode;
     private boolean multiple;
     private boolean existent;

@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface EntityEntryService {
     List<EntityEntryModel> getEntries(List<String> entryCodes);
+
+    List<EntityEntryModel> getEntries(String entityCode);
 }

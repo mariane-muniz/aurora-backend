@@ -10,4 +10,6 @@ public interface EntityService {
     Optional<EntityModel> findEntity(String code);
     void removeEntity(EntityModel entity);
     void createEntity(EntityStructureData structure, FarmModel farm);
+
+    void removeAllEntities();
 }

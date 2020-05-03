@@ -50,8 +50,14 @@ public class EntityServiceImpl implements EntityService {
         attributes.forEach(entry -> {
             entry.setEntityCode(model.getCode());
             entry.setFarm(farm);
+            entry.setEntity(model);
             entry.setCode(model.getCode() + "_" + entry.getCode());
             this.entityEntryRepository.save(entry);
         });
+    }
+
+    @Override
+    public void removeAllEntities() {
+        this.entityRepository.deleteAll();
     }
 }

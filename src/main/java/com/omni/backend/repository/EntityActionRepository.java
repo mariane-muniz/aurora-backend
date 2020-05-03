@@ -15,7 +15,7 @@ public interface EntityActionRepository extends PagingAndSortingRepository<Entit
     @RestResource(path = "find-by-entity")
     @Query(
             "SELECT AC FROM EntityActionModel as AC " +
-            "WHERE AC.entityCode = :entity " +
+            "WHERE (AC.entityCode = :entity OR AC.entityCode = 'general') " +
                 "AND AC.existent = :existent " +
                 "AND AC.multiple = :multiple"
     )

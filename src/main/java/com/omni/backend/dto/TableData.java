@@ -10,7 +10,6 @@ import java.util.List;
 @Setter
 public class TableData implements Data {
     private boolean displayPagination;
-    private List<TableActionGroupData> actionGroups = new ArrayList<>();
     private List<String> fields = new ArrayList<>();
     private List<String> selected = new ArrayList<>();
     private List<ArrayList> values = new ArrayList<>();

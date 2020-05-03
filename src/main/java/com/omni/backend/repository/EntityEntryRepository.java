@@ -12,4 +12,5 @@ public interface EntityEntryRepository extends PagingAndSortingRepository<Entity
 
     @Query("SELECT entry FROM EntityEntryModel entry WHERE entry.code IN(:codes)")
     List<EntityEntryModel> findByCode(final List<String> codes);
+    List<EntityEntryModel> findByEntityCode(final String entityCode);
 }

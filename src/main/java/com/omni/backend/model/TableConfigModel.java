@@ -19,7 +19,7 @@ public class TableConfigModel extends AbstractAudit {
     private boolean displayPagination = false;
     @ElementCollection
     private List<String> entries;
-    @Column(name = "entity_code", nullable = false, unique = true)
+    @Column(name = "entity_code", nullable = false, unique = false)
     private String entityCode;
     @OneToMany(
             cascade = CascadeType.ALL,

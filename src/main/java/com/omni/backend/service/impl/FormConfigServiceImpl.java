@@ -8,6 +8,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @Slf4j
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -16,6 +18,7 @@ public class FormConfigServiceImpl implements FormConfigService {
 
     @Override
     public FormConfigModel getForm(final String entityCode) {
-        return this.formConfigRepository.findOneByEntityCode(entityCode);
+        Optional<FormConfigModel> form = this.formConfigRepository.findOneByEntityCode(entityCode);
+        return form.orElseGet(() -> this.formConfigRepository.findOneByEntityCode("general").orElse(null));
     }
 }

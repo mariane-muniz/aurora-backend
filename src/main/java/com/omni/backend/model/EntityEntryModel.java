@@ -13,7 +13,7 @@ import javax.persistence.*;
 public class EntityEntryModel extends AbstractAudit {
     private static final long serialVersionUID = 1L;
 
-    @Column(name = "entity_code", nullable = false, unique = true)
+    @Column(name = "entity_code", nullable = false, unique = false)
     private String entityCode;
     @Column(nullable = false)
     private String type;

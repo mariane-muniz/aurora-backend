@@ -21,6 +21,7 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
+import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
@@ -49,7 +50,7 @@ public class FarmServiceImp extends FarmService {
     @Override
     public ResponseEntity<EntityStructureData[]> getEntityStructures(
             final String farmCode,
-            final String token) throws URISyntaxException {
+            final String token) throws URISyntaxException, ResourceAccessException {
         final URI URL = new URI(this.protocol + farmCode + "/entity-structure");
         final HttpEntity<Object> headers = this.getHeader(token);
         return restTemplate.exchange(URL, HttpMethod.GET, headers, EntityStructureData[].class);
@@ -74,7 +75,7 @@ public class FarmServiceImp extends FarmService {
         Assert.notNull(farmCode, "entityCode");
         Assert.notNull(farmCode, "code");
         Assert.notNull(token, "token");
-        final URI URL = new URI(this.protocol + farmCode + "/" + entityCode + "/search/code?value=" + code);
+        final URI URL = new URI(this.protocol + farmCode + "/" + entityCode + "/search/findOneByCode?code=" + code);
         final HttpEntity<Object> headers = this.getHeader(token);
         return restTemplate.exchange(URL, HttpMethod.GET, headers, String.class);
     }

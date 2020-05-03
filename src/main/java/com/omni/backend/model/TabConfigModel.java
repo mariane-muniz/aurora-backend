@@ -16,7 +16,7 @@ public class TabConfigModel extends AbstractAudit {
 
     @Column(nullable = false, unique = true)
     private String name;
-    @Column(name = "entity_code", nullable = false, unique = true)
+    @Column(name = "entity_code", nullable = false, unique = false)
     private String entityCode;
     @OneToMany(
             cascade = CascadeType.ALL,

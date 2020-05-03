@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.ResourceAccessException;
 
 import java.net.URISyntaxException;
 import java.util.Objects;
@@ -35,6 +36,7 @@ public class EntityStructureFacadeImpl implements EntityStructureFacade {
                 final String farmCode = farm.getCode();
                 final ResponseEntity<EntityStructureData[]> entityStructures =
                         this.farmService.getEntityStructures(farmCode, token);
+
                 if (HttpStatus.OK.equals(entityStructures.getStatusCode())) {
                     final EntityStructureData[] structures = entityStructures.getBody();
                     if (Objects.nonNull(structures)) {
@@ -53,9 +55,14 @@ public class EntityStructureFacadeImpl implements EntityStructureFacade {
                     }
                 }
             }
-            catch (URISyntaxException e) {
+            catch (URISyntaxException | ResourceAccessException e) {
                 log.error(e.getMessage());
             }
         });
+    }
+
+    @Override
+    public void removeStructures() {
+        this.entityService.removeAllEntities();
     }
 }

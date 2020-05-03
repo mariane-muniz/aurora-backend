@@ -20,4 +20,9 @@ public class EntityEntryServiceImpl implements EntityEntryService {
     public List<EntityEntryModel> getEntries(final List<String> entryCodes) {
         return this.entityEntryRepository.findByCode(entryCodes);
     }
+
+    @Override
+    public List<EntityEntryModel> getEntries(final String entityCode) {
+        return this.entityEntryRepository.findByEntityCode(entityCode);
+    }
 }

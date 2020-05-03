@@ -8,6 +8,5 @@ import java.util.Optional;
 
 @RepositoryRestResource(path = "entity", itemResourceRel = "entities", exported = true)
 public interface EntityRepository extends PagingAndSortingRepository<EntityModel, Long> {
-
     Optional<EntityModel> findOneByCode(final String code);
 }

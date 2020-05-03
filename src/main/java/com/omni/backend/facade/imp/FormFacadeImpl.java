@@ -22,6 +22,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.net.URISyntaxException;
+import java.util.Objects;
 import java.util.Optional;
 
 @Slf4j
@@ -41,7 +42,10 @@ public class FormFacadeImpl implements FormFacade {
         final Optional<EntityModel> entity = this.entityService.findEntity(entityCode);
         if (entity.isPresent()) {
             final FormConfigModel config = this.formConfigService.getForm(entityCode);
-            return this.formPopulator.populate(parameter, new FormData());
+            if (Objects.nonNull(config)) {
+                parameter.setConfig(config);
+                return this.formPopulator.populate(parameter, new FormData());
+            }
         }
         return null;
     }

@@ -25,9 +25,10 @@ public class FormEntryPopulator implements Populator<RequestParameter, FormEntry
     }
 
     private void setValue(final FormEntryData target, final Map<String, Object> values) {
-        final String code = target.getCode();
+        final String code = target.getCode().split("_")[1];
         if (Objects.nonNull(values) && values.containsKey(code)) {
-            target.setValue(values.get(code).toString());
+            final Object value = values.get(code);
+            if (Objects.nonNull(value)) target.setValue(values.get(code).toString());
         }
     }
 }

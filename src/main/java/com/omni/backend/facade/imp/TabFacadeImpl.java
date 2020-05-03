@@ -31,9 +31,11 @@ public class TabFacadeImpl implements TabFacade {
             final String entityCode = parameter.getEntityCode();
             final Optional<EntityModel> entity = this.entityService.findEntity(entityCode);
             if (entity.isPresent()) {
-                final TabConfigModel tabConfig = this.tabService.getConfig(entityCode);
-                parameter.setConfig(tabConfig);
-                return this.tabPopulator.populate(parameter, new HashSet<>());
+                final Optional<TabConfigModel> tabConfig = this.tabService.getConfig(entityCode);
+                if (tabConfig.isPresent()) {
+                    parameter.setConfig(tabConfig.get());
+                    return this.tabPopulator.populate(parameter, new HashSet<>());
+                }
             }
         }
         catch (Exception e) {

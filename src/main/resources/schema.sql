@@ -23,8 +23,6 @@ create or replace table entity_actions
 	multiple bit not null,
 	rules varchar(255) null,
 	text varchar(255) not null,
-	constraint UK_4gcrbunbqs5oxjafs1wdgs5uj
-		unique (entity_code),
 	constraint UK_qmhvxxxqrhi8kk56yx35u3xuo
 		unique (code)
 );
@@ -72,8 +70,6 @@ create or replace table entity_entries
 	farm_id bigint not null,
 	constraint UK_30nn6agh98d22guncxt5qgt43
 		unique (code),
-	constraint UK_5eqc656rcdiijxu8ibnmviwy5
-		unique (entity_code),
 	constraint FKbdc35xvfg95dj1gd87p2gdoh7
 		foreign key (entity_id) references entities (id),
 	constraint FKkih2b5uv6qedy9tad2y3mjq4u
@@ -89,9 +85,7 @@ create or replace table form_configs
 	updated_at datetime not null,
 	entity_code varchar(255) not null,
 	constraint UK_bvx49hbjnyehwi6705bryj3q9
-		unique (code),
-	constraint UK_j01gg149ayc0pxc322gcdlc47
-		unique (entity_code)
+		unique (code)
 );
 
 create or replace table form_config_model_entries
@@ -116,8 +110,6 @@ create or replace table tab_configs
 	updated_at datetime not null,
 	entity_code varchar(255) not null,
 	name varchar(255) not null,
-	constraint UK_fuwjdprq3prh64skldf6t2ekh
-		unique (entity_code),
 	constraint UK_gxop1v4wyo0q1av8sok0ylr9
 		unique (code),
 	constraint UK_m0ssjjiuwj5i4fv03pojf2i28
@@ -166,9 +158,7 @@ create or replace table table_configs
 	display_pagination bit not null,
 	entity_code varchar(255) not null,
 	constraint UK_ihqp14vpbmgabor0mamq9vixg
-		unique (code),
-	constraint UK_ksmce8sphh2wgnebf3nl25nxb
-		unique (entity_code)
+		unique (code)
 );
 
 create or replace table table_config_model_entries

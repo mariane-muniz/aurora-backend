@@ -14,7 +14,7 @@ import java.util.List;
 public class FormConfigModel extends AbstractAudit {
     private static final long serialVersionUID = 1L;
 
-    @Column(name = "entity_code", nullable = false, unique = true)
+    @Column(name = "entity_code", nullable = false, unique = false)
     private String entityCode;
     @ElementCollection
     private List<String> entries;

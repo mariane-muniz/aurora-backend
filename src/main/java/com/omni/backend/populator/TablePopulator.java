@@ -21,6 +21,7 @@ import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -38,33 +39,50 @@ public class TablePopulator implements Populator<TableParameter, TableData> {
         final TableConfigModel config = source.getTableConfig();
         final EntityModel entity = source.getEntity();
         final String token = source.getToken();
-        final List<String> entryCodes = config.getEntries();
-        final List<EntityEntryModel> entries = this.entityEntryModelRepository.findByCode(entryCodes);
+        final List<EntityEntryModel> entries = this.getEntries(config, entity);
 
-        target.setDisplayPagination(config.isDisplayPagination());
+        this.setFields(entries, target);
         this.setMainResult(entity, token, target, entries);
         this.setSlaveResults(entries, target);
+
+        target.setDisplayPagination(config.isDisplayPagination());
         return target;
     }
 
-    private void setMainResult(final EntityModel entity, final String token,
-                               final TableData target, final List<EntityEntryModel> entries) {
+    private void setFields(final List<EntityEntryModel> entries, final TableData target) {
+        target.setFields(new ArrayList<>());
+        entries.forEach(entry -> target.getFields().add(entry.getCode().split("_")[1]));
+    }
+
+    private List<EntityEntryModel> getEntries(final TableConfigModel config, final EntityModel entity) {
+        if (config.getCode().equals("general")) {
+            final String entityCode = entity.getCode();
+            final List<EntityEntryModel> entries = this.entityEntryModelRepository.findByEntityCode(entityCode);
+            return entries.stream().filter(entry -> entry.getCode().contains("code")).collect(Collectors.toList());
+        }
+        return this.entityEntryModelRepository.findByCode(config.getEntries());
+    }
+
+    private void setMainResult(
+            final EntityModel entity,
+            final String token,
+            final TableData target,
+            final List<EntityEntryModel> entries) {
+
         Assert.notNull(entity, "entity");
         Assert.notNull(target, "target");
-
-        final Iterable<EntityEntryModel> attributes = this.entityEntryModelRepository.findAll();
         final RestParameter parameter = new RestParameter();
         parameter.setEntity(entity);
         parameter.setToken(token);
-
         try {
             final ResponseEntity<ResponseData> result = this.farmService.search(parameter);
             if (result.getStatusCode().equals(HttpStatus.OK)) {
                 ArrayList products = (ArrayList) result.getBody().get_embedded().values().iterator().next();
                 products.forEach(product -> {
                     ArrayList targetEntries = new ArrayList();
-                    attributes.forEach(entry -> {
-                        Object value = ((LinkedHashMap<String, Object>) product).get(entry.getCode());
+                    entries.forEach(entry -> {
+                        final String entryCode = entry.getCode().split("_")[1];
+                        Object value = ((LinkedHashMap<String, Object>) product).get(entryCode);
                         targetEntries.add(value);
                     });
                     target.getValues().add(targetEntries);
