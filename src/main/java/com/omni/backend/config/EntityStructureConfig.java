@@ -14,10 +14,16 @@ public class EntityStructureConfig {
     private final EntityStructureFacade entityStructureFacade;
 
     @Scheduled(initialDelay = 10000L, fixedRate = 60000000)
-    protected void createEntityStructure() {
+    protected void create() {
         log.info("Start structure sync...");
         this.entityStructureFacade.removeStructures();
         this.entityStructureFacade.updateStructure(null);
         log.info("End structure sync.");
+    }
+
+    @Scheduled(fixedDelay = 60000)
+    protected void update() {
+        log.info("Update structure");
+        this.entityStructureFacade.updateStructure(null);
     }
 }
